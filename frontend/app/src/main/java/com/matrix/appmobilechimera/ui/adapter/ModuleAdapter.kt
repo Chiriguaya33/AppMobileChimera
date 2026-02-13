@@ -33,6 +33,7 @@ class ModuleAdapter(
             "assign" -> holder.ivIcon.setImageResource(R.drawable.ic_missions) // Tarea
             "resource" -> holder.ivIcon.setImageResource(R.drawable.ic_profile) // Recurso/PDF
             "forum" -> holder.ivIcon.setImageResource(R.drawable.ic_home) // Foro
+            "sub-section" -> holder.ivIcon.setImageResource(R.drawable.ic_home)
             else -> holder.ivIcon.setImageResource(R.drawable.ic_launcher_foreground)
         }
 

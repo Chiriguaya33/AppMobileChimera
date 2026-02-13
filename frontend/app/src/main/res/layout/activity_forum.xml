@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <View
+        android:id="@+id/viewForumHeader"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/chimera_teal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvForumTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="50dp"
+        android:text="Foro del Curso"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvForumSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discusiones recientes"
+        android:textColor="#B2DFDB"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/tvForumTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvForumTitle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDiscussions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewForumHeader"
+        tools:listitem="@layout/item_discussion" />
+
+    <ProgressBar
+        android:id="@+id/pbForum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

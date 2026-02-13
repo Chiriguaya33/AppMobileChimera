@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvDiscussionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título del Tema"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDiscussionAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Por: Nombre del Autor"
+            android:textColor="@color/chimera_teal"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="8dp"
+            android:background="#EEEEEE" />
+
+        <TextView
+            android:id="@+id/tvDiscussionSnippet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Vista previa del mensaje inicial de la discusión..."
+            android:textColor="@color/chimera_text_grey"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

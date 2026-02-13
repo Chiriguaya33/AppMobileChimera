@@ -8,6 +8,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import com.matrix.appmobilechimera.model.Discussion
 
 interface ChimeraApi {
 
@@ -22,6 +23,14 @@ interface ChimeraApi {
 
     @GET("cursos/{curso_id}/secciones")
     fun getCourseContents(@Path("curso_id") cursoId: Int): Call<List<Section>>
+
+    // Agrega esto a tu interface ChimeraApi
+
+    @GET("foro/{curso_id}/discusiones")
+    fun getForumDiscussions(@Path("curso_id") cursoId: Int): Call<List<Discussion>>
+
+    @GET("seccion/{id}")
+    fun getSectionDetail(@Path("id") sectionId: Int): Call<Section>
 
     // --- NUEVO MÉTODO PARA ENVÍO DE TAREAS ---
     @Multipart
