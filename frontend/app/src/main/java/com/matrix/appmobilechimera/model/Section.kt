@@ -1,8 +1,13 @@
 package com.matrix.appmobilechimera.model
 
-// Section.kt
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Section(
-    val id: Int,
-    val name: String,      // Ej: "Unidad 1: Introducción"
-    val modules: List<Module> // La lista de actividades dentro de la sección
-)
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("summary") val summary: String? = "", // Nuevo campo
+    @SerializedName("modules") val modules: List<Module> = emptyList()
+) : Parcelable

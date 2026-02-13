@@ -1,13 +1,7 @@
 package com.matrix.appmobilechimera.ui.dashboard
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,64 +12,54 @@ import com.matrix.appmobilechimera.ui.adapter.MissionAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Intent
 
-class MissionsFragment : Fragment() {
+
+class MissionsFragment : Fragment(R.layout.fragment_missions) {
 
     private lateinit var rvMissions: RecyclerView
-    private lateinit var progressBar: ProgressBar
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_missions, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
 
-        // 1. Inicializar Vistas
         rvMissions = view.findViewById(R.id.rvMissions)
-        progressBar = view.findViewById(R.id.progressBarMissions) // Asegúrate de tener este ID en tu XML
-
         rvMissions.layoutManager = LinearLayoutManager(requireContext())
 
-        // 2. Obtener USER_ID de SharedPreferences
-        val sharedPref = requireContext().getSharedPreferences("ChimeraSession", Context.MODE_PRIVATE)
-        val userId = sharedPref.getInt("USER_ID", -1)
-
-        // 3. Cargar datos reales
-        cargarMisiones(userId)
-
-        return view
+        // Pulido: Cada vez que el fragmento se crea, pedimos los datos frescos
+        cargarMisiones()
     }
 
-    private fun cargarMisiones(userId: Int) {
-        if (userId == -1) return
-
-        progressBar.visibility = View.VISIBLE
+    private fun cargarMisiones() {
+        val userId = requireContext().getSharedPreferences("ChimeraSession", 0).getInt("USER_ID", -1)
 
         RetrofitClient.instance.getMisiones(userId).enqueue(object : Callback<List<Mission>> {
             override fun onResponse(call: Call<List<Mission>>, response: Response<List<Mission>>) {
-                progressBar.visibility = View.GONE
-
                 if (response.isSuccessful) {
                     val misiones = response.body() ?: emptyList()
 
-                    // Configuramos el adapter con los datos que vienen de Python/Moodle
-                    rvMissions.adapter = MissionAdapter(misiones) { mission ->
-                        abrirEnvioDeTarea(mission)
+                    // Si la lista está vacía, mostramos un mensaje (C3: Usabilidad)
+                    if (misiones.isEmpty()) {
+                        // Aquí podrías mostrar un TextView de "No tienes misiones"
                     }
-                } else {
-                    Toast.makeText(requireContext(), "Error al obtener misiones", Toast.LENGTH_SHORT).show()
+
+                    rvMissions.adapter = MissionAdapter(misiones) { mission ->
+                        // Si ya está entregada, podrías avisar que ya no necesita envío
+                        if (mission.status != "Entregado") {
+                            abrirEnvioDeTarea(mission)
+                        }
+                    }
                 }
             }
 
             override fun onFailure(call: Call<List<Mission>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(requireContext(), "Error de red: ${t.message}", Toast.LENGTH_SHORT).show()
+                // Manejo de errores para que la app no se vea "muerta"
             }
         })
     }
 
     private fun abrirEnvioDeTarea(mission: Mission) {
-        // Punto 4 del Alcance: Envío de tareas (Simulado por ahora)
-        Toast.makeText(requireContext(), "Abriendo: ${mission.title}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(requireContext(), com.matrix.appmobilechimera.ui.mission.MissionSubmissionActivity::class.java)
+        intent.putExtra("MISSION_DATA", mission)
+        startActivity(intent)
     }
 }

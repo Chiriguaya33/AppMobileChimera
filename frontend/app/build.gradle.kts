@@ -67,4 +67,7 @@ dependencies {
 
     //Recyclerviwe
     implementation(libs.androidx.recyclerview)
+
+    //Habilita Multipart y extensiones de archivos
+    implementation(libs.okhttp.main)
 }

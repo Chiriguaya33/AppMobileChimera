@@ -1,15 +1,16 @@
 package com.matrix.appmobilechimera.ui.adapter
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.matrix.appmobilechimera.R
 import com.matrix.appmobilechimera.model.Mission
 
-// 1. MODIFICACIÓN: Agregamos el callback onItemClick al constructor
 class MissionAdapter(
     private val missions: List<Mission>,
     private val onItemClick: (Mission) -> Unit
@@ -32,15 +33,30 @@ class MissionAdapter(
     override fun onBindViewHolder(holder: MissionViewHolder, position: Int) {
         val mission = missions[position]
 
+        // 1. Datos básicos
         holder.tvTitle.text = mission.title
         holder.tvDetails.text = "${mission.courseName} • ${mission.type}"
         holder.xpBadge.text = "+${mission.xpReward} XP"
-        holder.tvDueDate.text = "Vence: ${mission.dueDate}"
         holder.pbProgress.progress = mission.progress
 
-        // 2. MODIFICACIÓN: Escuchamos el clic en toda la tarjeta (itemView)
+        // 2. Lógica de Pulido: Feedback de Estado (C3)
+        // Usamos ContextCompat para obtener colores de forma segura según la versión de Android
+        val context = holder.itemView.context
+
+        if (mission.status == "Entregado") {
+            holder.tvDueDate.text = "✓ Tarea Entregada"
+            holder.tvDueDate.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
+            holder.tvDueDate.setTypeface(null, Typeface.BOLD)
+            holder.pbProgress.progress = 100 // Si está entregada, la barra debe estar llena
+        } else {
+            holder.tvDueDate.text = "Vence: ${mission.dueDate} a las ${mission.dueTime}"
+            holder.tvDueDate.setTextColor(ContextCompat.getColor(context, R.color.chimera_orange))
+            holder.tvDueDate.setTypeface(null, Typeface.NORMAL)
+        }
+
+        // 3. Gestión de Clics
         holder.itemView.setOnClickListener {
-            onItemClick(mission) // Ejecutamos la función que viene del Fragment
+            onItemClick(mission)
         }
     }
 

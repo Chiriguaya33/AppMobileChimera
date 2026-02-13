@@ -1,5 +1,6 @@
 package com.matrix.appmobilechimera.ui.course
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -17,18 +18,15 @@ import retrofit2.Response
 
 class CourseDetailActivity : AppCompatActivity() {
 
-    // 1. DECLARACIÓN: Esto quita el rojo de rvSections
     private lateinit var rvSections: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_detail)
 
-        // 2. VINCULACIÓN: Usamos los IDs exactos de tu XML
         val tvName = findViewById<TextView>(R.id.tvDetailName)
         val tvCode = findViewById<TextView>(R.id.tvDetailCode)
         rvSections = findViewById(R.id.rvSections)
-
         rvSections.layoutManager = LinearLayoutManager(this)
 
         val course = intent.getParcelableExtra<Course>("COURSE_DATA")
@@ -36,26 +34,32 @@ class CourseDetailActivity : AppCompatActivity() {
         if (course != null) {
             tvName.text = course.fullname
             tvCode.text = "Código: ${course.shortname}"
-
-            // 3. LLAMADA: Ahora la función ya existe
             cargarContenido(course.id)
         }
     }
 
-    // 4. DEFINICIÓN: Esta es la función que te faltaba implementar
     private fun cargarContenido(courseId: Int) {
         RetrofitClient.instance.getCourseContents(courseId).enqueue(object : Callback<List<Section>> {
             override fun onResponse(call: Call<List<Section>>, response: Response<List<Section>>) {
                 if (response.isSuccessful) {
                     val sections = response.body() ?: emptyList()
-                    // Aquí es donde ocurre la magia y se llena la lista
-                    rvSections.adapter = SectionAdapter(sections)
+                    // MODIFICACIÓN: Pasamos una función lambda para manejar el clic en la sección
+                    rvSections.adapter = SectionAdapter(sections) { section ->
+                        irADetalleSeccion(section)
+                    }
                 }
             }
 
             override fun onFailure(call: Call<List<Section>>, t: Throwable) {
-                Toast.makeText(this@CourseDetailActivity, "Error de red", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CourseDetailActivity, "Error de conexión", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    // NUEVO MÉTODO: Abre la nueva actividad de detalle de sección
+    private fun irADetalleSeccion(section: Section) {
+        val intent = Intent(this, SectionDetailActivity::class.java)
+        intent.putExtra("SECTION_DATA", section) // Gracias a Parcelable pasamos toda la unidad
+        startActivity(intent)
     }
 }

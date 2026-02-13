@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.matrix.appmobilechimera.R
 import com.matrix.appmobilechimera.model.Module
 
-class ModuleAdapter(private val modules: List<Module>) :
-    RecyclerView.Adapter<ModuleAdapter.ModuleViewHolder>() {
+class ModuleAdapter(
+    private val modules: List<Module>,
+    private val onItemClick: (Module) -> Unit // Callback para detectar el clic en la actividad
+) : RecyclerView.Adapter<ModuleAdapter.ModuleViewHolder>() {
 
     class ModuleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.tvModuleName)
@@ -29,8 +31,14 @@ class ModuleAdapter(private val modules: List<Module>) :
         // Lógica para cambiar el icono según el tipo de Moodle (modname)
         when (module.modname) {
             "assign" -> holder.ivIcon.setImageResource(R.drawable.ic_missions) // Tarea
-            "resource" -> holder.ivIcon.setImageResource(R.drawable.ic_profile) // PDF/Archivo (usa tus iconos)
+            "resource" -> holder.ivIcon.setImageResource(R.drawable.ic_profile) // Recurso/PDF
             "forum" -> holder.ivIcon.setImageResource(R.drawable.ic_home) // Foro
+            else -> holder.ivIcon.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+
+        // Habilitamos el clic en toda la fila del módulo
+        holder.itemView.setOnClickListener {
+            onItemClick(module)
         }
     }
 

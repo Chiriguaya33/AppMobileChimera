@@ -13,22 +13,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppMobileChimera"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.course.CourseDetailActivity"
-            android:exported="false" />
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.dashboard.DashboardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.course.CourseDetailActivity"
+            android:exported="false"
+            android:label="Contenido del Curso" />
+
+        <activity
+            android:name=".ui.course.SectionDetailActivity"
+            android:exported="false"
+            android:label="Detalle de Unidad" />
+
+        <activity
+            android:name=".ui.mission.MissionSubmissionActivity"
+            android:exported="false"
+            android:label="Entregar Misión"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
