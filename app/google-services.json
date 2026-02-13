@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "891478808310",
+    "project_id": "appmobilechimera",
+    "storage_bucket": "appmobilechimera.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891478808310:android:0305128168eca396853ed7",
+        "android_client_info": {
+          "package_name": "com.matrix.appmobilechimera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCu8mq67a-fIX9mRH8izdrDuNSlTCOrkas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
